@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="Driver_Alert_Station.Views.RobotSideView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:Driver_Alert_Station.ViewModels"
+             xmlns:mvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             mc:Ignorable="d" 
+             d:DesignHeight="1000" d:DesignWidth="1000"
+             d:DataContext="{d:DesignInstance viewModels:RobotViewModel, IsDesignTimeCreatable=False}"
+             mvvm:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="UpperArm">
+                <Canvas Background="Transparent">
+                    <Path Fill="LightGray" Stroke="Black" Data="m 0,-15 l 240,0 0,30 -240,0 z"/>
+                    <Path Fill="Black" Data="m 0,-60 a 60,60 180 1 0 0,120 a 60,60 180 1 0 0,-120 m 0 55 a 5,5 180 1 0 0,10 a 5,5 180 1 0 0,-10"/>
+                    <Path Fill="Black" Data="m 240,-30 a 30,30 180 1 0 0,60 a 30,30 180 1 0 0,-60 m 0 25 a 5,5 180 1 0 0,10 a 5,5 180 1 0 0,-10"/>
+                </Canvas>
+            </ControlTemplate>
+            <ControlTemplate x:Key="Forearm">
+                <Canvas Background="Transparent">
+                    <Path Fill="LightGray" Stroke="Black" Data="m 0,-15 l 240,0 0,30 -240,0 z"/>
+                    <Path Fill="Black" Data="m 240,-30 a 30,30 180 1 0 0,60 a 30,30 180 1 0 0,-60 m 0 25 a 5,5 180 1 0 0,10 a 5,5 180 1 0 0,-10"/>
+                </Canvas>
+            </ControlTemplate>
+            <ControlTemplate x:Key="Hand">
+                <Canvas Background="Transparent">
+                    <Path Fill="OrangeRed" Stroke="Black" Data="m 144,-55 l 110,0 0,110 -110,0 z"/>
+                    <Path Fill="LightGray" Stroke="Black" Data="m 0,-15 l 80,0 0,10 15,0 0,-50 10,0 0,50 30,0 0,-50 10,0, 0,50 110,0 0,-50 10,0 0,110 -10,0 0,-50 -110,0 0,50 -10,0 0,-50 -30,0 0,50 -10,0 0,-50 -15,0 0,10 -80,0 z"/>
+                </Canvas>
+            </ControlTemplate>
+            <ControlTemplate x:Key="Forks">
+                <Canvas Background="Transparent">
+                    <Path Fill="Yellow" Stroke="Black" Data="m -30,0 h -300 v 10 h 300 z"/>
+                    <Path Fill="LightGray" Stroke="Black" Data="m 0,-20 l -30,20 v 10 h -300 v 10 h 330 z"/>
+                    <Path Fill="SandyBrown" Stroke="Black" Data="m -5,10 h -20 v 20 h -285 v -20 h -20 v 30 h 325 z"/>
+                </Canvas>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Canvas>
+        <Control Template="{StaticResource Forks}" >
+            <Control.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform X="{Binding ForkX, Mode=OneWay}" Y="{Binding ForkY, Mode=OneWay}"/>
+                </TransformGroup>
+            </Control.RenderTransform>
+        </Control>
+        <Path Fill="LightGray" Stroke="Black" Data="m 0,-66 l 415,0 0,66 -415,0 z">
+            <!-- Robot Base -->
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform X="{Binding SideViewLeft, Mode=OneWay}" Y="{Binding SideViewBottom, Mode=OneWay}"/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Fill="LightGray" Stroke="Black" Data="m 0,0 l 0,-453 30,0 0,453 z">
+            <!-- Elevator Vertical -->
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform X="{Binding ElevatorVerticalX, Mode=OneWay}" Y="{Binding ElevatorVerticalY, Mode=OneWay}"/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Control Template="{StaticResource Forearm}">
+            <Control.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="{Binding ElbowRotateTransformAngle, Mode=OneWay}"/>
+                    <TranslateTransform X="{Binding ElbowJointX, Mode=OneWay}" Y="{Binding ElbowJointY, Mode=OneWay}"/>
+                </TransformGroup>
+            </Control.RenderTransform>
+        </Control>
+        <Control Template="{StaticResource UpperArm}">
+            <Control.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="{Binding ShoulderRotateTransformAngle, Mode=OneWay}"/>
+                    <TranslateTransform X="{Binding ShoulderJointX, Mode=OneWay}" Y="{Binding ShoulderJointY, Mode=OneWay}"/>
+                </TransformGroup>
+            </Control.RenderTransform>
+        </Control>
+        <Control Template="{StaticResource Hand}" >
+            <Control.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="{Binding WristRotateTransformAngle, Mode=OneWay}"/>
+                    <TranslateTransform X="{Binding WristJointX, Mode=OneWay}" Y="{Binding WristJointY, Mode=OneWay}"/>
+                </TransformGroup>
+            </Control.RenderTransform>
+        </Control>
+        <Path Fill="LightGray" Stroke="Black" Data="m 0,0 l 30,-266 10,0 55,266 -10,0 -50,-240 -25,240 z">
+            <!-- Shoulder Support -->
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform X="{Binding ShoulderSupportX, Mode=OneWay}" Y="{Binding ShoulderSupportY, Mode=OneWay}"/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Fill="LightGray" Stroke="Black" Data="m 0,0 l 230,-266 -230,-187 0,10 220,177 -220,250">
+            <!-- Shoulder to Elevator Brace -->
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform X="{Binding ElevatorBraceX, Mode=OneWay}" Y="{Binding ElevatorBraceY, Mode=OneWay}"/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+    </Canvas>
+</UserControl>

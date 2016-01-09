@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Driver_Alert_Station.Views.GetterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="500" d:DataContext="{d:DesignData GetterViewModel}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="Wheel">
+                <Canvas Background="Transparent">
+                    <Path Fill="LawnGreen" Data="m 0,-30 a 30,30 180 0 1 0,60 a 30,30 180 0 1 0,-60"/>
+                </Canvas>
+            </ControlTemplate>
+            <ControlTemplate x:Key="PullingArrow">
+                <Canvas Background="Transparent">
+                    <Path Fill="Green" Stroke="Black" StrokeThickness="1" Data="M 0,-60 a 60,60 90 0 1 60,60 l 10,0 -20,20 -20,-20 10,0 a 40,40 90 0 0 -40,-40 z" />
+                </Canvas>
+            </ControlTemplate>
+            <ControlTemplate x:Key="PushingArrow">
+                <Canvas Background="Transparent">
+                    <Path Fill="Orange" Stroke="Black" StrokeThickness="1" Data="M 60,0 a 60,60 -90 0 0 -60,-60 l 0,-10 -20,20 20,20 0,-10 a 40,40 90 0 1 40,40 z" />
+                </Canvas>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Canvas>
+        <Control Template="{StaticResource Wheel}" />
+        <Control Template="{StaticResource PullingArrow}" Visibility="{Binding PullingInArrowVisibility}" />
+        <Control Template="{StaticResource PushingArrow}" Visibility="{Binding PushingOutArrowVisibility}"/>
+    </Canvas>
+</UserControl>

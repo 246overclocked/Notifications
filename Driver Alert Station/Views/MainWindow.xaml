@@ -1,0 +1,70 @@
+﻿<Window x:Class="Driver_Alert_Station.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:Driver_Alert_Station.Views"
+        xmlns:viewModels="clr-namespace:Driver_Alert_Station.ViewModels"
+        xmlns:p="clr-namespace:Driver_Alert_Station.Properties"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:commonCode="clr-namespace:CommonCode;assembly=CommonCode"
+        mc:Ignorable="d"
+        Icon="..\Images\Tatice-Cristal-Intense-Exclamation.ico"
+        Title="Scorpion Status Messages"
+        Width="{Binding Source={x:Static p:Settings.Default}, Path=WindowWidth, Mode=TwoWay}"
+        Height="{Binding Source={x:Static p:Settings.Default}, Path=WindowHeight, Mode=TwoWay}"
+        Top="{Binding Source={x:Static p:Settings.Default}, Path=WindowTop, Mode=TwoWay}"
+        Left="{Binding Source={x:Static p:Settings.Default}, Path=WindowLeft, Mode=TwoWay}"
+        d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel, IsDesignTimeCreatable=False}"
+        prism:ViewModelLocator.AutoWireViewModel="True">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ViewClosingCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <DockPanel LastChildFill="True">
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock DataContext ="{Binding TelemetryData}" Text="{Binding Status, StringFormat=Telemetry: {0}}"></TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+        <Grid x:Name="LayoutRoot" DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="35"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <views:RobotSideView Grid.Column="0" DataContext="{Binding RobotViewModel}">
+                    <views:RobotSideView.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="{Binding SideViewScale, Mode=OneWay}" ScaleY="{Binding SideViewScale, Mode=OneWay}" CenterX="{Binding SideViewCenterX, Mode=OneWay}" CenterY="{Binding SideViewCenterY, Mode=OneWay}"/>
+                        </TransformGroup>
+                    </views:RobotSideView.RenderTransform>
+                    <commonCode:DataPiping.DataPipes>
+                        <commonCode:DataPipeCollection>
+                            <commonCode:DataPipe Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:RobotSideView}}, Path=ActualWidth}" Target="{Binding Path=ActualWidth, Mode=OneWayToSource}" />
+                            <commonCode:DataPipe Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:RobotSideView}}, Path=ActualHeight}" Target="{Binding Path=ActualHeight, Mode=OneWayToSource}" />
+                        </commonCode:DataPipeCollection>
+                    </commonCode:DataPiping.DataPipes>
+                </views:RobotSideView>
+            </Grid>
+            <views:AlertsView Grid.Row="1" HorizontalContentAlignment="Stretch" DataContext="{Binding AlertsViewModel}"/>
+            <Grid Margin="5" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <CheckBox Grid.Column="0" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="5" Content="Log these messages" IsChecked="{Binding LogAlertMessages}"/>
+                <Button Grid.Column="1" VerticalAlignment="Center"  HorizontalAlignment="Center" Width="100" Command="{Binding ShowLogFolderCommand}" Content="Show Log Folder"/>
+                <Button Grid.Column="2" VerticalAlignment="Center"  HorizontalAlignment="Right" Width="100" Command="{Binding ClearStatusMessagesCommand}" Content="Clear"/>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>

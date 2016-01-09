@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="Driver_Alert_Station.Views.RobotTopView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:viewModels="clr-namespace:Driver_Alert_Station.ViewModels"
+             xmlns:views="clr-namespace:Driver_Alert_Station.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="500" d:DataContext="{d:DesignData RobotViewModel}">
+    <Canvas>
+        <Path Fill="LightGray" Stroke="Black" Data="m 40,50 h 90 v 90 h 250 v -90 h 90 v 220 h -171 v 195 h -90 v -195 h -171 v -220"/>
+        <views:GetterView DataContext="{Binding LeftGetterViewModel}">
+            <!-- Left Getter Wheel -->
+            <Control.RenderTransform>
+                <TransformGroup>
+                    <!--
+                    <TranslateTransform X="{Binding LeftGetterX, Mode=OneWay}" Y="{Binding LeftGetterY, Mode=OneWay}"/>
+                    -->
+                    <TranslateTransform X="155" Y="30"/>
+                </TransformGroup>
+            </Control.RenderTransform>
+        </views:GetterView>
+        <views:GetterView DataContext="{Binding RightGetterViewModel}">
+            <!-- Right Getter Wheel -->
+            <Control.RenderTransform>
+                <TransformGroup>
+                    <!-- ScaleX of -1 will reflect the control about the X axis, as the right getter is a mirror image of the left getter -->
+                    <ScaleTransform ScaleX="-1" ScaleY="1"/>
+                    <!--
+                    <TranslateTransform X="{Binding RightGetterX, Mode=OneWay}" Y="{Binding RightGetterY, Mode=OneWay}"/>
+                    -->
+                    <TranslateTransform X="355" Y="30"/>
+                </TransformGroup>
+            </Control.RenderTransform>
+        </views:GetterView>
+        <!--
+        <Ellipse Canvas.Left="120"  Fill="LawnGreen" Stroke="Black" Width="60" Height="60"/>
+        <Path Fill="Green" Stroke="Black" StrokeThickness="1" Data="M 0,0 A 60,60 90 0 1 60,60 l 10,0 -20,20 -20,-20 10,0 a 40,40 90 0 0 -40,-40 z" >
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform X="150" Y="-30"/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Fill="Orange" Stroke="Black" StrokeThickness="1" Data="M 60,60 A 60,60 90 0 0 0,0 l 0,-10 -20,20 20,20 0,-10 a 40,40 90 0 1 40,40 z" >
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform X="150" Y="-30"/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Ellipse Canvas.Left="330"  Fill="LawnGreen" Stroke="Black" Width="60" Height="60"/>
+        <Path Fill="Green" Stroke="Black" StrokeThickness="1" Data="M 0,0 A 60,60 90 0 1 60,60 l 10,0 -20,20 -20,-20 10,0 a 40,40 90 0 0 -40,-40 z" >
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1" />
+                    <TranslateTransform X="360" Y="-30"/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Fill="Orange" Stroke="Black" StrokeThickness="1" Data="M 60,60 A 60,60 90 0 0 0,0 l 0,-10 -20,20 20,20 0,-10 a 40,40 90 0 1 40,40 z" >
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1" />
+                    <TranslateTransform X="360" Y="-30"/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        -->
+        <Path Fill="Red" Stroke="Black" Data="m 0,0 h 20 v 80 h -20 v -80">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="60" CenterX="10" CenterY="40"/>
+                    <TranslateTransform X="75" Y="70"/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Fill="Red" Stroke="Black" Data="m 0,0 h 20 v 80 h -20 v -80">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="0" CenterX="10" CenterY="40"/>
+                    <TranslateTransform X="415" Y="70"/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Fill="Red" Stroke="Black" Data="m 0,0 h 20 v 80 h -20 v -80">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="0" CenterX="10" CenterY="40"/>
+                    <TranslateTransform X="245" Y="360"/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+    </Canvas>   
+</UserControl>

@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="BeagleBoneAnalogMonitor.Views.AnalogValuesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             xmlns:viewModels="clr-namespace:BeagleBoneAnalogMonitor.ViewModels"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+
+             xmlns:oxy="http://oxyplot.org/wpf"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModels:AnalogChannelsViewModel, IsDesignTimeCreatable=False}"
+             mvvm:ViewModelLocator.AutoWireViewModel="True">
+    <DockPanel LastChildFill="True">
+        <ListView DockPanel.Dock="Top" Margin="2" ItemsSource="{Binding AnalogChannels}" HorizontalContentAlignment="Stretch">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalAlignment="Stretch">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonUp">
+                                <i:InvokeCommandAction Command="{Binding ClickedOnChannelCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                        <ProgressBar Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Stretch" Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" Value="{Binding LastValue, Mode=OneWay}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="Sensor ID: {0} : {1:0.###} ({2}) {3}">
+                                    <Binding Path="SensorId" Mode="OneWay"/>
+                                    <Binding Path="LastValue" Mode="OneWay"/>
+                                    <Binding Path="LastValueHex" Mode="OneWay"/>
+                                    <Binding Path="Statistics" Mode="OneWay"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock Grid.Row ="0" Grid.Column="0" Text="{Binding SensorId, StringFormat=Sensor ID: {0}, Mode=OneWay}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <oxy:PlotView DockPanel.Dock="Bottom" Title="ADC0 Voltage vs. Time">
+            <oxy:PlotView.Series>
+                <oxy:LineSeries ItemsSource="{Binding AnalogChannels[0].DataPoints}"/>
+            </oxy:PlotView.Series>
+        </oxy:PlotView>
+
+    </DockPanel>
+</UserControl>
